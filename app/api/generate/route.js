@@ -1,24 +1,39 @@
-import  clientPromise from "@/lib/mongodb";
-
+import { NextResponse } from "next/server"
+import clientPromise from "@/lib/mongodb"
 
 export async function POST(req) {
+  try {
 
     const body = await req.json()
-    const client = await clientPromise;
-    const db = client.db("bitlinks")
+
+    const client = await clientPromise
+
+    const db = client.db("short")
     const collection = db.collection("url")
 
-  
-    // Check if the short url exists
-    const doc = await collection.findOne({shorturl: body.shorturl})
-    if(doc){
-        return Response.json({success: false, error: true,  message: 'URL already exists!' })
+    const doc = await collection.findOne({ shorturl: body.shorturl })
+
+    if (doc) {
+      return NextResponse.json({
+        success: false,
+        message: "URL already exists!"
+      })
     }
 
-    const result = await collection.insertOne({
-        url: body.url,
-        shorturl: body.shorturl
+    await collection.insertOne({
+      url: body.url,
+      shorturl: body.shorturl
     })
 
-    return Response.json({success: true, error: false,  message: 'URL Generated Successfully' })
+    return NextResponse.json({
+      success: true,
+      message: "URL Generated Successfully"
+    })
+
+  } catch (error) {
+    return NextResponse.json({
+      success: false,
+      message: "Server Error"
+    }, { status: 500 })
   }
+}

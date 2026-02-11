@@ -13,7 +13,7 @@ export async function POST(request) {
     }
 
     const client = await clientPromise;
-    const db = client.db("bitlinks");
+    const db = client.db("short");
     const collection = db.collection("contacts");
 
     await collection.insertOne({
