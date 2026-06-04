@@ -29,10 +29,10 @@ export default function ContactPage() {
     const data = await res.json();
 
     if (data.success) {
-      setStatus("Message sent ✅");
+      setStatus("Message sent successfully");
       setForm({ name: "", email: "", message: "" });
     } else {
-      setStatus("Something went wrong ❌");
+      setStatus("Something went wrong");
     }
   };
 
@@ -82,10 +82,6 @@ export default function ContactPage() {
           </form>
         </div>
       </main>
-
-      <footer className="bg-gray-900 text-gray-300 text-center py-6">
-        © {new Date().getFullYear()} shortLinks
-      </footer>
     </div>
   );
 }
