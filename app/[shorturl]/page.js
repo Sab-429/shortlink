@@ -1,18 +1,15 @@
-import { redirect } from "next/navigation";
-import clientPromise from "@/lib/db";
+import pool from "@/lib/db";
+import { notFound, redirect } from "next/navigation";
 
-export default async function Page({ params }) {
-  const shorturl = (await params).shorturl
-  const client = await clientPromise;
-  const db = client.db("short")
-  const collection = db.collection("url")
+export default async function ShortURLPage({ params}) {
+  const { shorturl} = await params;
 
-    const doc = await collection.findOne({ shorturl: shorturl });
-    console.log(doc);
-    if (doc) {
-      redirect(doc.url);
-    }else{
-        redirect(`$(process.env.NEXT_PUBLIC_HOST)`);
-    }
-  return <div>My Post: {url}</div>
+  const result = await pool.query(
+    "SELECT url FROM urls WHERE shorturl = $1",
+    [shorturl]
+  );
+  if (result.rowCount.length > 0) {
+    return notFound()
+  }
+  redirect(result.rows[0].url)
 }
