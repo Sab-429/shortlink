@@ -20,13 +20,17 @@ export default function ContactPage() {
     e.preventDefault();
     setStatus("Sending...");
 
-    const res = await fetch("/api/Contact", {
+    const res = await fetch("/api/contact", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(form),
     });
 
+    console.log("status: ",res.status)
+
     const data = await res.json();
+
+    console.log("Response:",data)
 
     if (data.success) {
       setStatus("Message sent successfully");
