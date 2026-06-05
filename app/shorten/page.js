@@ -42,7 +42,7 @@ export default function GeneratePage() {
       <input
         type="text"
         value={shorturl}
-        onChange={(e) => setShorturl(e.target.value)}
+        onChange={(e) => setShortUrl(e.target.value)}
         placeholder="Enter preferred short code"
         className="p-4 rounded-lg focus:outline-purple-500 bg-white"
       />
