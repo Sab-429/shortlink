@@ -28,16 +28,3 @@ export async function POST(request) {
     );
   }
 }
-
-export async function GET(request) {
-  const secret = request.headers.get("x-admin-secret");
-
-  if (secret !== process.env.ADMIN_SECRET) {
-    return Response.json({ error: "Unauthorized" }, { status: 401 });
-  }
-
-  const result = await pool.query(
-    "SELECT * FROM contacts ORDER BY created_at DESC"
-  )
-  return Response.json(result.rows);
-}
